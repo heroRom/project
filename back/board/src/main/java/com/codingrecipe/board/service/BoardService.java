@@ -1,6 +1,7 @@
 package com.codingrecipe.board.service;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.SaveBoardDTO;
 import com.codingrecipe.board.entity.BoardEntity;
 import com.codingrecipe.board.entity.BoardFileEntity;
 import com.codingrecipe.board.repository.BoardFileRepository;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +29,44 @@ import java.util.Optional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardFileRepository boardFileRepository;
+
+    /**
+     * @param file upload file
+     * @return stored file name, if failed return null
+     */
+    private String uploadFile(MultipartFile file) {
+        String storedFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+        String domain = "https://jjundesign.gabia.io";
+        String savePath = domain + "/springboot_img/";
+
+        try {
+            file.transferTo(new File(savePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return storedFileName;
+    }
+
+    @Transactional
+    public void save(SaveBoardDTO dto) {
+        BoardEntity entity = BoardEntity.from(dto);
+
+        if (!dto.getBoardFile().isEmpty()) {
+            String storedFileName = uploadFile(dto.getBoardFile());
+
+            if (storedFileName != null) {
+                String fileOriginalName = dto.getBoardFile().getOriginalFilename();
+                entity.setFileAttached(1);
+                BoardFileEntity boardFileEntity = BoardFileEntity.toBoardFileEntity(entity, fileOriginalName, storedFileName);
+                boardFileRepository.save(boardFileEntity);
+            }
+        }
+
+        boardRepository.save(entity);
+    }
+
     public void save(BoardDTO boardDTO) throws IOException {
         // 파일 첨부 여부에 따라 로직 분리
         if (boardDTO.getBoardFile().isEmpty()) {
@@ -54,7 +92,6 @@ public class BoardService {
 //            String savePath = "/Users/jjun/springboot_img/" + fileStoredName; // C:/springboot_img/9802398403948_내사진.jpg
             String domain = "https://jjundesign.gabia.io";
             String savePath = domain + "/springboot_img/"; // 실제 도메인 서버
-            
             boardFile.transferTo(new File(savePath)); // 5.
             BoardEntity boardEntity = BoardEntity.toSaveFileEntity(boardDTO);
             Long savedId = boardRepository.save(boardEntity).getId();
@@ -70,7 +107,7 @@ public class BoardService {
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();
-        for (BoardEntity boardEntity: boardEntityList) {
+        for (BoardEntity boardEntity : boardEntityList) {
             boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
         }
         return boardDTOList;

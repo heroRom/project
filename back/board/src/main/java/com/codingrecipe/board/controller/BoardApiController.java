@@ -1,11 +1,10 @@
 package com.codingrecipe.board.controller;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.SaveBoardDTO;
 import com.codingrecipe.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,5 +17,18 @@ public class BoardApiController {
     @GetMapping
     public List<BoardDTO> get() {
         return boardService.findAll();
+    }
+
+    @PostMapping
+    public Boolean save(
+            @ModelAttribute SaveBoardDTO dto
+    ) {
+        try {
+            boardService.save(dto);
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 }
