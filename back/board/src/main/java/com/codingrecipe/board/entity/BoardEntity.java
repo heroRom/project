@@ -1,6 +1,7 @@
 package com.codingrecipe.board.entity;
 
 import com.codingrecipe.board.dto.BoardDTO;
+import com.codingrecipe.board.dto.SaveBoardDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -75,6 +76,14 @@ public class BoardEntity extends BaseEntity {
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardClickCount(0);
         boardEntity.setFileAttached(1); // 파일 있음.
+        return boardEntity;
+    }
+
+    public static BoardEntity from(SaveBoardDTO dto) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setBoardWriter(dto.getBoardWriter());
+        boardEntity.setBoardTitle(dto.getBoardTitle());
+        boardEntity.setBoardContents(dto.getBoardTitle());
         return boardEntity;
     }
 }
