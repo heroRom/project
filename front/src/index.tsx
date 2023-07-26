@@ -1,18 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SignUp from './view/Authentication/SignUp';
-import LogIn from './view/Authentication/LogIn';
-import BoardSeb from './view/BoardSeb';
-import NotFoundPage from './view/NotFoundPage';
-import BoardMain from './view/BoardMain';
-import BoardForm from './view/BoardMain/save';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import LogIn from "./view/Authentication/LogIn";
+import SignUp from "./view/Authentication/SignUp";
+import BoardList from "./view/BoardMain/list";
+import BoardForm from "./view/BoardMain/save";
+import BoardSeb from "./view/BoardSeb";
+import NotFoundPage from "./view/NotFoundPage";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
@@ -21,7 +20,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
-        <Route path="/list" element={<BoardMain />} />
+        <Route path="/list" element={<BoardList />} />
         <Route path="/board_story" element={<BoardSeb />} />
         <Route path="/board/save" element={<BoardForm />} />
         <Route path="*" element={<NotFoundPage />} />
