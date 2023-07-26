@@ -1,46 +1,52 @@
-import React, { useState } from 'react'
-import { boardListApi } from '../../apis';
+import { useEffect, useState } from "react";
+import { Board, BoardAPI } from "../../apis/BoardAPI";
 import Button from '../../components/Button';
+import axios from "axios";
 
 
 export default function BoardForm() {
-    const [boardTitle, setBoardTitle] = useState<String>('');
-    const [boardContents, setBoardContents] = useState<String>('');
-    const [boardWriter, setBoardWriter] = useState<String>('');
-    // const [writeDate, setWriteDate] = useState<Date>('');
-    // const [updateDate, setUpdateDate] = useState<Date>('');
-    // const [boardClickCount, setBoardClickCount] = useState<String>('');
-    const [fileAttached, setFileAttached] = useState<String>('');
-    
 
-    const LogInHandler = async () => {
-        const data = {
-            boardTitle,
-            boardContents, 
-            boardWriter,
-            // writeDate,
-            // updateDate,
-            // boardClickCount,
-            fileAttached,
-        };
+    const [boards, setBoards] = useState<Board[]>([]);
+    const [boardWriter, setBoardWriter] = useState("");
+    const [boardTitle, setBoardTitle] = useState("");
+    const [boardContents, setBoardContents] = useState("");
+    const [fileAttached, setFileAttached] = useState<File | null>(null);
+
+    useEffect(() => {
+    BoardAPI.getAll().then((res) => {
+        setBoards(res);
+    });
+    }, []);
     
-        const boardResponse = await boardListApi(data);
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
     
-        if (!boardResponse) {
-            alert("게시판 업로드 실패했습니다"); 
-            return;
-        }
-        if (!boardResponse.result) {
-            alert("게시판 업로드 실패했습니다"); 
-            return;
-        }
-        alert("게시판 업로드 성공했습니다."); 
-    }
+        const formData = new FormData();
+        formData.append("boardWriter", boardWriter);
+        formData.append("boardTitle", boardTitle);
+        formData.append("boardContents", boardContents);
+        if (fileAttached) {
+            formData.append("boardFile", fileAttached);
+        } 
+        
+    
+        // 서버로 데이터 전송
+        axios.post("/board/save", formData)
+        .then((response) => {
+            // 서버 응답 처리
+            console.log("글 작성 성공:", response.data);
+        })
+        .catch((error) => {
+            // 에러 처리
+            console.error("글 작성 실패:", error);
+        });
+    };
+
     
     return (
         <>
             <div>
-                <form action="/board/save" method="post" >
+                <form action="/board/list" method="post" onSubmit={handleSubmit}>
                     <div>
                         <p>작성자: <input type="text" onChange={(e) => setBoardWriter(e.target.value)} name="boardWriter" /></p>
                     </div>
@@ -51,10 +57,10 @@ export default function BoardForm() {
                         <p>내용: <textarea onChange={(e) => setBoardContents(e.target.value)} name="boardContents"></textarea></p>
                     </div>
                     <div>
-                        <p>파일: <input type="file" onChange={(e) => setFileAttached(e.target.value)} name="boardFile" /></p>
+                        <p>파일: <input type="file" onChange={(e) => e.target.files && setFileAttached(e.target.files[0])} name="boardFile" /></p>
                     </div>
-                    
-                    <Button size='Medium'><input type="submit" value="글작성" /> 글작성</Button> {/* 나중에 Botton 컴포넌트로 변경 */}
+
+                    <Button size='Medium' type="submit">글작성</Button>
                 </form>
             </div>
         </>

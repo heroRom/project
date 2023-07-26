@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function ContentsMain() {
     return (
     <div id='contentsCards'>
-        <Link to='/board_story' id='contentsBox'>
+        <Link to='/board/story' id='contentsBox'>
             <div id="contentsImg">
                 <img src="https://news.kbs.co.kr/data/news/2017/12/11/3581473_ADK.jpg" alt="" />
             </div>
@@ -20,7 +20,7 @@ export default function ContentsMain() {
                 </div>
             </div>
         </Link>
-        <Link to='/board_story' id='contentsBox'>
+        <Link to='/board/story' id='contentsBox'>
             <div id="contentsImg">
                 <img src="https://news.kbs.co.kr/data/news/2017/12/11/3581473_ADK.jpg" alt="" />
             </div>
@@ -36,7 +36,7 @@ export default function ContentsMain() {
                 </div>
             </div>
         </Link>
-        <Link to='/board_story' id='contentsBox'>
+        <Link to='/board/story' id='contentsBox'>
             <div id="contentsImg">
                 <img src="https://news.kbs.co.kr/data/news/2017/12/11/3581473_ADK.jpg" alt="" />
             </div>
@@ -52,7 +52,7 @@ export default function ContentsMain() {
                 </div>
             </div>
         </Link>
-        <Link to='/board_story' id='contentsBox'>
+        <Link to='/board/story' id='contentsBox'>
             <div id="contentsImg">
                 <img src="https://news.kbs.co.kr/data/news/2017/12/11/3581473_ADK.jpg" alt="" />
             </div>

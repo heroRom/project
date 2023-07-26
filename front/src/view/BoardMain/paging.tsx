@@ -1,28 +1,20 @@
 export {};
-// import React from 'react';
 
-// interface Board {
-//     id: number;
-//     boardTitle: string;
-//     boardWriter: string;
-//     writeDate: string;
-//     boardClickCount: number;
-// }
+// import { useEffect, useState } from "react";
+// import { Board, BoardAPI } from "../../apis/BoardAPI";
 
-// interface BoardPagingProps {
-//     boardList: {
-//         number: number;
-//         totalPages: number[];
-//         content: Board[];
-//     };
-//     handleSaveReq: () => void;
-//     handlePageClick: (page: number) => void;
-// }
+// export default function BoardPaging() {
+//     const [boards, setBoards] = useState<Board[]>([]);
 
-// const BoardPaging: React.FC<BoardPagingProps> = ({ boardList, handleSaveReq, handlePageClick }) => {
+//     useEffect(() => {
+//     BoardAPI.getAll().then((res) => {
+//         setBoards(res);
+//     });
+//     }, []);
+
 //     return (
 //         <div>
-//         <button onClick={handleSaveReq}>글작성</button>
+//         <button>글작성</button>
 
 //         <table>
 //             <tr>
@@ -67,5 +59,3 @@ export {};
 //         </div>
 //     );
 // };
-
-// export default BoardList;

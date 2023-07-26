@@ -26,12 +26,12 @@ export const signUpApi = async (data: any) => {
 }
 
 // 게시판
-export const boardListApi = async (data: any) => {
+// export const boardListApi = async (data: any) => {
     
-    const response = await axios.get("http://localhost:8888/api/auth/board", data).catch((error) => null);
-    // const response = await axios.get("http://192.168.10.93:8888/api/auth/board", data).catch((error) => null);
-    if (!response) return null; 
+//     const response = await axios.get("http://localhost:8888/api/auth/board", data).catch((error) => null);
+//     // const response = await axios.get("http://192.168.10.93:8888/api/auth/board", data).catch((error) => null);
+//     if (!response) return null; 
 
-    const result = response.data;
-    return result;
-}
+//     const result = response.data;
+//     return result;
+// }

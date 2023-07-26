@@ -1,6 +1,6 @@
 export {};
-// import React from 'react';
-// import axios from 'axios';
+// import { useEffect, useState } from "react";
+// import { Board, BoardAPI } from "../../apis/BoardAPI";
 
 // interface Comment {
 //     id: number;

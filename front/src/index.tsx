@@ -20,8 +20,8 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<LogIn />} />
-        <Route path="/list" element={<BoardList />} />
-        <Route path="/board_story" element={<BoardSeb />} />
+        <Route path="/board/list" element={<BoardList />} />
+        <Route path="/board/story" element={<BoardSeb />} />
         <Route path="/board/save" element={<BoardForm />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
